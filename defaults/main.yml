@@ -13,3 +13,10 @@ kojid_serverca: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
 kojid_pki_cacert: koji_ca_cert.crt
 kojid_pki_client_cert: localhost.crt 
 kojid_pki_client_key: localhost.key
+
+# Zabbix config
+zabbix_kojid_templates:
+  - Template CentOS Koji builder
+zabbix_kojid_groups:
+  - CentOS Koji builders
+

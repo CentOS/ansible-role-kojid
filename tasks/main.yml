@@ -22,3 +22,16 @@
     name: kojid
     state: started
     enabled: True
+
+
+- name: Configuring zabbix agent
+  include_role:
+    name: zabbix-server
+    tasks_from: agent_config
+  vars:
+    zabbix_templates: "{{ zabbix_kojid_templates }}"
+    zabbix_groups: "{{ zabbix_kojid_groups }}"
+  delegate_to: "{{ zabbix_api_srv }}"  
+  tags:
+    - monitoring
+    
