@@ -1,0 +1,21 @@
+---
+- name: Ensuring we have a place to store x509 files
+  file:
+    path: /etc/pki/koji
+    state: directory
+
+- name: Distributing Koji x509 files
+  copy:
+    src: "{{ pkistore }}/koji/{{ item }}"
+    dest: "/etc/pki/koji/{{ item }}"
+  with_items:
+    - "{{ kojid_pki_cacert }}"
+    - "{{ kojid_pki_client_cert }}"
+    - "{{ kojid_pki_client_key }}"
+  register: kojid_x509_files
+
+- name: Concatenating files if needed
+  shell: "/bin/cat /etc/pki/koji/{{ kojid_pki_client_cert }} /etc/pki/koji/{{ kojid_pki_client_key }} > /etc/pki/koji/{{ inventory_hostname }}.pem"
+  when: kojid_x509_files is changed
+  notify: restart_kojid
+

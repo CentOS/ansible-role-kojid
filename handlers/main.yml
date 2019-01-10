@@ -1,0 +1,6 @@
+---
+# handlers file for kojid
+- name: restart_kojid
+  service:
+    name: kojid
+    state: restarted

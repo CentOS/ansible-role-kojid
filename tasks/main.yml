@@ -1,0 +1,24 @@
+---
+
+- include_tasks: pki.yml
+
+- name: Ensuring koji pkgs are installed
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - koji-builder
+    - mock
+    - createrepo
+ 
+- name: Configuring kojid
+  template:
+    src: kojid.conf.j2
+    dest: /etc/kojid/kojid.conf
+  notify: restart_kojid
+
+- name: Ensuring kojid is started and enabled
+  service:
+    name: kojid
+    state: started
+    enabled: True
