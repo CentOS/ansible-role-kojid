@@ -9,10 +9,14 @@ kojid_xmlrpc_url: http://localhost/kojihub
 kojid_kojifiles_url: http://localhost/kojifiles
 kojid_maxjobs: 20
 kojid_minspace: 8192
-kojid_serverca: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
 kojid_pki_cacert: koji_ca_cert.crt
 kojid_pki_client_cert: localhost.crt 
 kojid_pki_client_key: localhost.key
+
+# If we use serverca_bundle, we'll default to /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+# if False, we'll copy kojid_serverca to correct location
+kojid_serverca_bundle: True
+kojid_serverca: koji_ca_cert.crt
 
 # Zabbix config
 zabbix_kojid_templates:

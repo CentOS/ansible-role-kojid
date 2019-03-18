@@ -81,5 +81,8 @@ cert = /etc/pki/koji/{{ inventory_hostname}}.pem
 ca = /etc/pki/koji/{{ kojid_pki_cacert }}
 
 ;certificate of the CA that issued the HTTP server certificate
-serverca = {{ kojid_serverca }}
-
+{% if kojid_serverca_bundle %}
+serverca = /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+{% else %}
+serverca = /etc/pki/koji/{{ kojid_serverca }}
+{% endif %}

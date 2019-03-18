@@ -14,6 +14,14 @@
     - "{{ kojid_pki_client_key }}"
   register: kojid_x509_files
 
+- name: Distributing Koji serverca (if needed)
+  copy:
+    src: "{{ pkistore }}/koji/{{ item }}"
+    dest: "/etc/pki/koji/{{ item }}"
+  with_items:
+    - "{{ kojid_serverca }}"
+  when: not kojid_serverca_bundle  
+
 - name: Concatenating files if needed
   shell: "/bin/cat /etc/pki/koji/{{ kojid_pki_client_cert }} /etc/pki/koji/{{ kojid_pki_client_key }} > /etc/pki/koji/{{ inventory_hostname }}.pem"
   when: kojid_x509_files is changed
