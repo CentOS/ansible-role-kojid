@@ -18,6 +18,8 @@ kojid_pki_client_key: localhost.key
 kojid_serverca_bundle: True
 kojid_serverca: koji_ca_cert.crt
 
+kojid_allowed_scms: scm.example.com:/cvs/example git.example.org:/example svn.example.org:/users/*:no
+
 # Zabbix config
 zabbix_kojid_templates:
   - Template CentOS Koji builder
