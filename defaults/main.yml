@@ -26,3 +26,5 @@ zabbix_kojid_templates:
 zabbix_kojid_groups:
   - CentOS Koji builders
 
+kojid_buildtools_repo: false
+kojid_buildtools_repo_host: https://localhost/

@@ -2,6 +2,12 @@
 
 - include_tasks: pki.yml
 
+- name: Add the buildtools repo if needed
+  template:
+    src: buildtools.repo.j2
+    dest: /etc/yum.repos.d/buildtools.repo
+  when: buildtools_repo
+
 - name: Ensuring koji pkgs are installed
   yum:
     name: "{{ item }}"
