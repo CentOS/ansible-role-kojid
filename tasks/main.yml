@@ -6,7 +6,7 @@
   template:
     src: buildtools.repo.j2
     dest: /etc/yum.repos.d/buildtools.repo
-  when: buildtools_repo
+  when: kojid_buildtools_repo
 
 - name: Ensuring koji pkgs are installed
   yum:
