@@ -22,6 +22,19 @@
     - "{{ kojid_serverca }}"
   when: not kojid_serverca_bundle  
 
+- name: Importing CA for update-ca-trust 
+  copy:
+    src: "{{ pkistore }}/koji/{{ item }}"
+    dest: "/etc/pki/ca-trust/source/anchors/{{ item }}"
+  with_items:
+    - "{{ kojid_serverca }}"
+  when: not kojid_serverca_bundle  
+  register: koji_local_ca
+
+- name: Launching update-ca-trust 
+  command: /bin/update-ca-trust
+  when: not kojid_serverca_bundle and koji_local_ca is changed
+
 - name: Concatenating files if needed
   shell: "/bin/cat /etc/pki/koji/{{ kojid_pki_client_cert }} /etc/pki/koji/{{ kojid_pki_client_key }} > /etc/pki/koji/{{ inventory_hostname }}.pem"
   when: kojid_x509_files is changed
