@@ -28,3 +28,5 @@ zabbix_kojid_groups:
 
 kojid_buildtools_repo: false
 kojid_buildtools_repo_host: https://localhost/
+
+kojid_set_default_nullroute: false

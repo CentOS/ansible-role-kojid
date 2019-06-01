@@ -29,6 +29,26 @@
     state: started
     enabled: True
 
+# Some packages need a default route defined (not necessarily reachable)
+# See: https://bugs.ruby-lang.org/issues/13864
+# We can define one that points at localhost to stop any outbound tracffic
+# but have a route defined
+- name: get the current default route
+  command: "/usr/sbin/ip route show 0.0.0.0/0"
+  register: default_route
+  when: kojid_set_default_nullroute
+
+- name: delete the default route if it is not localhost
+  command: "/usr/sbin/ip route del default"
+  when: not '127.0.0.1' in default_route.stdout and kojid_set_default_nullroute
+  register: delete_default_route
+  failed_when:
+    - delete_default_route.rc !=0
+    - '"No such process" not in delete_default_route.stderr'
+
+- name: add the null default route
+  command: "/usr/sbin/ip route add default via 127.0.0.1"
+  when: kojid_set_default_nullroute and not (delete_default_route is skipped)
 
 - name: Configuring zabbix agent
   include_role:
