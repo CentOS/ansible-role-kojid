@@ -20,6 +20,15 @@ kojid_serverca: koji_ca_cert.crt
 
 kojid_allowed_scms: scm.example.com:/cvs/example git.example.org:/example svn.example.org:/users/*:no
 
+# Do we need additional user for compose (user with ssh/mock access)
+kojid_compose_user: False
+kojid_compose_user_list:
+  - login_name: centos-composer
+    full_name: CentOS Composer Tool
+    sudo_right: False
+    ssh_pub_key:
+      - ssh-rsa blablabla
+
 # Zabbix config
 zabbix_kojid_templates:
   - Template CentOS Koji builder
@@ -28,3 +37,6 @@ zabbix_kojid_groups:
 
 kojid_buildtools_repo: false
 kojid_buildtools_repo_host: https://localhost/
+
+kojid_set_default_nullroute: false
+
