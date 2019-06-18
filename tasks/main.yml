@@ -60,4 +60,6 @@
   delegate_to: "{{ zabbix_api_srv }}"  
   tags:
     - monitoring
-    
+ 
+- include_tasks: compose.yml
+  when: kojid_compose_user
