@@ -13,6 +13,11 @@ kojid_pki_cacert: koji_ca_cert.crt
 kojid_pki_client_cert: localhost.crt 
 kojid_pki_client_key: localhost.key
 
+# Do we want to mount storage over nfs for createrepo channel ?
+koji_nfs_mount: False
+koji_mountpoint: /mnt/kojishare
+koji_nfs_path: nfs-host.domain.com:/exports/kojishare
+
 # If we use serverca_bundle, we'll default to /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
 # if False, we'll copy kojid_serverca to correct location
 kojid_serverca_bundle: True
