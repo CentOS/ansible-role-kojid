@@ -37,6 +37,8 @@
   command: "/usr/sbin/ip route show 0.0.0.0/0"
   register: default_route
   when: kojid_set_default_nullroute
+  tags:
+    - route
 
 - name: delete the default route if it is not localhost
   command: "/usr/sbin/ip route del default"
@@ -45,10 +47,14 @@
   failed_when:
     - delete_default_route.rc !=0
     - '"No such process" not in delete_default_route.stderr'
+  tags:
+    - route
 
 - name: add the null default route
   command: "/usr/sbin/ip route add default via 127.0.0.1"
   when: kojid_set_default_nullroute and not (delete_default_route is skipped)
+  tags:
+    - route
 
 - name: Configuring zabbix agent
   include_role:
@@ -60,6 +66,13 @@
   delegate_to: "{{ zabbix_api_srv }}"  
   tags:
     - monitoring
- 
-- include_tasks: compose.yml
+
+- name: Setting up nfs mount
+  include_tasks: nfs.yml
+  when: koji_nfs_mount
+  tags:
+    - nfs
+
+- name: Including compose task when needed
+  include_tasks: compose.yml
   when: kojid_compose_user
