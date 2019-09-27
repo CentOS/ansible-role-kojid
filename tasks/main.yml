@@ -16,7 +16,16 @@
     - koji-builder
     - mock
     - createrepo
- 
+
+- name: Adding more pkgs if we need buildtools repo
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - dnf
+    - dnf-plugins-core
+  when: kojid_buildtools_repo
+
 - name: Configuring kojid
   template:
     src: kojid.conf.j2
