@@ -85,3 +85,17 @@
 - name: Including compose task when needed
   include_tasks: compose.yml
   when: kojid_compose_user
+  tags:
+    - compose
+
+- name: Including runroot tasks when needed
+  include_tasks: runroot.yml
+  when: kojid_runroot_builder
+  tags:
+    - runroot
+
+- name: Including image builder tasks when needed
+  include_tasks: image.yml
+  when: kojid_image_builder
+  tags:
+    - image

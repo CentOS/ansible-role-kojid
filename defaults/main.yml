@@ -34,6 +34,9 @@ kojid_compose_user_list:
     ssh_pub_key:
       - ssh-rsa blablabla
 
+kojid_image_builder: False
+kojid_runroot_builder: False
+
 # Zabbix config
 zabbix_kojid_templates:
   - Template CentOS Koji builder

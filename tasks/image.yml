@@ -1,0 +1,21 @@
+- include_role:
+  name: kvm-host
+  tasks_from: main.yml
+
+- name: Install the Image tooling on the compose boxes
+  yum:
+    name:
+      - imagefactory
+      - "imagefactory-plugins-*"
+      - pykickstart
+      - nfs-utils
+    state: latest
+  notify: 
+    - restart_kojid
+
+- name: Template the oz config 
+  template:
+    src: oz.cfg.j2
+    dest: /etc/oz/oz.cfg
+  notify:
+    - restart_kojid
