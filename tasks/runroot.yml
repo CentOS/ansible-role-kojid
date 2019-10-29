@@ -1,0 +1,6 @@
+- name: Template the runroot config 
+  template:
+    src: runroot.conf.j2
+    dest: /etc/kojid/plugins/runroot.conf
+  notify:
+    - restart_kojid

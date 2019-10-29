@@ -39,3 +39,21 @@
   tags:
     - users
 
+- name: make directories for the compose mounts
+  file:
+    path: "{{ item.target }}"
+    state: directory
+  with_items:
+    - "{{ kojid_compose_mounts }}"
+  when: kojid_compose_mounts is defined
+
+- name: mount the compose mounts
+  mount:
+    fstype: nfs
+    src: "{{ item.source }}"
+    path: "{{ item.target }}"
+    opts: "{{ item.opts }}"
+    state: mounted
+  with_items:
+    - "{{ kojid_compose_mounts }}"
+  when: kojid_compose_mounts is defined
