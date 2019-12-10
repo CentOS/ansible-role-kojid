@@ -1,7 +1,7 @@
 ---
 # defaults variables for kojid role
 # kojid is builder role
-
+# Kojid settings
 kojid_vendor: CentOS
 kojid_packager:  builder@centos.org
 kojid_distribution: CentOS
@@ -22,8 +22,14 @@ koji_nfs_path: nfs-host.domain.com:/exports/kojishare
 # if False, we'll copy kojid_serverca to correct location
 kojid_serverca_bundle: True
 kojid_serverca: koji_ca_cert.crt
-
 kojid_allowed_scms: scm.example.com:/cvs/example git.example.org:/example svn.example.org:/users/*:no
+
+# Do we need new repo dedicated to new pkgs (rpm,mock, etc)
+kojid_buildtools_repo: False
+kojid_buildtools_repo_host: https://localhost/
+
+# Do we need to disable default route
+kojid_set_default_nullroute: False
 
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False
@@ -34,6 +40,7 @@ kojid_compose_user_list:
     ssh_pub_key:
       - ssh-rsa blablabla
 
+# Is the host also building images through imagefactory ("image" channel in koji)
 kojid_image_builder: False
 kojid_runroot_builder: False
 
@@ -43,8 +50,4 @@ zabbix_kojid_templates:
 zabbix_kojid_groups:
   - CentOS Koji builders
 
-kojid_buildtools_repo: false
-kojid_buildtools_repo_host: https://localhost/
-
-kojid_set_default_nullroute: false
 

@@ -1,6 +1,6 @@
-- include_role:
-  name: kvm-host
-  tasks_from: main.yml
+- name: kvm host role 
+  import_role:
+    name: kvm-host
 
 - name: Install the Image tooling on the compose boxes
   yum:
@@ -9,6 +9,10 @@
       - "imagefactory-plugins-*"
       - pykickstart
       - nfs-utils
+      - pykickstart
+      - oz
+      - pycdio
+      - livecd-tools
     state: latest
   notify: 
     - restart_kojid
