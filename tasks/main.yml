@@ -7,6 +7,16 @@
     src: buildtools.repo.j2
     dest: /etc/yum.repos.d/buildtools.repo
   when: kojid_buildtools_repo
+  tags:
+    - repo
+
+- name: Adding repo gpg key if needed
+  copy: 
+    src: files/RPM-GPG-KEY-CentOS-Infra 
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Infra
+  when: kojid_buildtools_repo and kojid_buildtools_repo_gpgcheck  
+  tags:
+    - repo
 
 - name: Ensuring koji pkgs are installed
   yum:
