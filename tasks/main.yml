@@ -25,7 +25,7 @@
   with_items:
     - koji-builder
     - mock
-    - createrepo
+    - createrepo_c
 
 - name: Adding more pkgs if we need buildtools repo
   yum:
