@@ -48,6 +48,16 @@
     state: started
     enabled: True
 
+
+- name: set a static route for git if needed
+  shell: "nmcli con mod eth0 +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up eth0"
+  with_items:
+    - "{{ kojid_add_route_to_scm }}"
+  when: kojid_add_route_to_scm is defined
+  tags:
+    - routes
+
+
 # Some packages need a default route defined (not necessarily reachable)
 # See: https://bugs.ruby-lang.org/issues/13864
 # We can define one that points at localhost to stop any outbound tracffic
