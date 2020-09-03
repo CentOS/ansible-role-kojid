@@ -34,6 +34,14 @@ kojid_buildtools_repo_gpgkey: RPM-GPG-KEY-CentOS-Infra
 # Do we need to disable default route
 kojid_set_default_nullroute: False
 
+# Do we want to add other routes
+# Name of the networkmanager connection to use
+kojid_nmcli_con: eth0
+# If so we can define it like this :
+#kojid_add_route_to_scm:
+#  - scm_server: 172.30.1.1 
+#    gateway: 192.168.1.1
+
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False
 kojid_compose_user_list:

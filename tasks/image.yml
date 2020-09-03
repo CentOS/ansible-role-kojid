@@ -11,8 +11,6 @@
       - nfs-utils
       - pykickstart
       - oz
-      - pycdio
-      - livecd-tools
     state: latest
   notify: 
     - restart_kojid

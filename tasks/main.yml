@@ -20,20 +20,18 @@
 
 - name: Ensuring koji pkgs are installed
   yum:
-    name: "{{ item }}"
-    state: installed
-  with_items:
-    - koji-builder
-    - mock
-    - createrepo_c
+    name: 
+      - koji-builder
+      - mock
+      - createrepo_c
+    state: latest
 
 - name: Adding more pkgs if we need buildtools repo
   yum:
-    name: "{{ item }}"
+    name:
+      - dnf
+      - dnf-plugins-core
     state: installed
-  with_items:
-    - dnf
-    - dnf-plugins-core
   when: kojid_buildtools_repo
 
 - name: Configuring kojid
@@ -49,8 +47,8 @@
     enabled: True
 
 
-- name: set a static route for git if needed
-  shell: "nmcli con mod eth0 +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up eth0"
+- name: set a static route for get if needed
+  shell: "nmcli con mod \"{{ kojid_nmcli_con }}\" +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up \"{{ kojid_nmcli_con }}\" "
   with_items:
     - "{{ kojid_add_route_to_scm }}"
   when: kojid_add_route_to_scm is defined
