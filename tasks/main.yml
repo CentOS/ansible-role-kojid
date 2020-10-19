@@ -63,7 +63,6 @@
 - name: get the current default route
   command: "/usr/sbin/ip route show 0.0.0.0/0"
   register: default_route
-  when: kojid_set_default_nullroute
   tags:
     - route
 
