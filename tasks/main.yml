@@ -26,12 +26,14 @@
       - createrepo_c
     state: latest
 
-- name: Adding more pkgs if we need buildtools repo
+- name: Adding/updating more pkgs if we need buildtools repo
   yum:
     name:
       - dnf
       - dnf-plugins-core
-    state: installed
+      - gpgme
+      - rpm
+    state: latest
   when: kojid_buildtools_repo
 
 - name: Configuring kojid
