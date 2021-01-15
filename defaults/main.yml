@@ -9,9 +9,19 @@ kojid_xmlrpc_url: http://localhost/kojihub
 kojid_kojifiles_url: http://localhost/kojifiles
 kojid_maxjobs: 20
 kojid_minspace: 8192
+
+# Authentication : pick one to turn boolean on : tls or kerberos and then update needed variables
+# TLS auth
+koji_auth_tls: True
 kojid_pki_cacert: koji_ca_cert.crt
 kojid_pki_client_cert: localhost.crt 
 kojid_pki_client_key: localhost.key
+# Kerberos auth
+koji_auth_kerberos: False
+koji_auth_realm: EXAMPLE.COM
+koji_auth_principal: compile/%s@EXAMPLE.COM
+koji_auth_keytab: kojid.keytab
+
 
 # Do we want to mount storage over nfs for createrepo channel ?
 koji_nfs_mount: False

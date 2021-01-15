@@ -26,6 +26,15 @@
       - createrepo_c
     state: latest
 
+- block:
+    - name: Importing needed keytab for kojid if using kerberos auth
+      copy:
+        src: "{{ pkistore }}/koji/{{ koji_auth_keytab }}"
+        dest: "/etc/kojid/{{ koji_auth_keytab }}"
+      notify: restart_kojid
+
+  when: koji_auth_kerberos
+
 - name: Adding/updating more pkgs if we need buildtools repo
   yum:
     name:

@@ -4,15 +4,22 @@
     path: /etc/pki/koji
     state: directory
 
-- name: Distributing Koji x509 files
-  copy:
-    src: "{{ pkistore }}/koji/{{ item }}"
-    dest: "/etc/pki/koji/{{ item }}"
-  with_items:
-    - "{{ kojid_pki_cacert }}"
-    - "{{ kojid_pki_client_cert }}"
-    - "{{ kojid_pki_client_key }}"
-  register: kojid_x509_files
+- block:
+    - name: Distributing Koji x509 files
+      copy:
+        src: "{{ pkistore }}/koji/{{ item }}"
+        dest: "/etc/pki/koji/{{ item }}"
+      with_items:
+        - "{{ kojid_pki_cacert }}"
+        - "{{ kojid_pki_client_cert }}"
+        - "{{ kojid_pki_client_key }}"
+      register: kojid_x509_files
+
+    - name: Concatenating files if needed
+      shell: "/bin/cat /etc/pki/koji/{{ kojid_pki_client_cert }} /etc/pki/koji/{{ kojid_pki_client_key }} > /etc/pki/koji/{{ inventory_hostname }}.pem"
+      when: kojid_x509_files is changed
+      notify: restart_kojid
+  when: koji_auth_tls
 
 - name: Distributing Koji serverca (if needed)
   copy:
@@ -35,8 +42,4 @@
   command: /bin/update-ca-trust
   when: not kojid_serverca_bundle and koji_local_ca is changed
 
-- name: Concatenating files if needed
-  shell: "/bin/cat /etc/pki/koji/{{ kojid_pki_client_cert }} /etc/pki/koji/{{ kojid_pki_client_key }} > /etc/pki/koji/{{ inventory_hostname }}.pem"
-  when: kojid_x509_files is changed
-  notify: restart_kojid
 

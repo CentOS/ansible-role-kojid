@@ -65,16 +65,20 @@ from_addr=Koji Build System <buildsys@example.com>
 
 ;configuration for Kerberos authentication
 
+{% if koji_auth_kerberos %}
 ;the format of the principal used by the build hosts
 ;%s will be replaced by the FQDN of the host
-;host_principal_format = compile/%s@EXAMPLE.COM
+host_principal_format = {{ koji_auth_principal }}
 
 ;location of the keytab
-;keytab = /etc/kojid/kojid.keytab
+keytab = /etc/kojid/{{ koji_auth_keytab }}
 
 ;the service name of the principal being used by the hub
 ;krbservice = host
 
+{% endif %}
+
+{% if koji_auth_tls %}
 ;configuration for SSL authentication
 
 ;client certificate
@@ -82,6 +86,9 @@ cert = /etc/pki/koji/{{ inventory_hostname}}.pem
 
 ;certificate of the CA that issued the client certificate
 ca = /etc/pki/koji/{{ kojid_pki_cacert }}
+
+{% endif %}
+
 
 ;certificate of the CA that issued the HTTP server certificate
 {% if kojid_serverca_bundle %}
