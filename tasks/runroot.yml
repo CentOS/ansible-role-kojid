@@ -1,3 +1,10 @@
+- name: Ensuring we have koji builder plugins installed
+  yum:
+    name: koji-builder-plugins
+    state: installed
+  notify:
+    - restart_kojid
+
 - name: Template the runroot config 
   template:
     src: runroot.conf.j2
