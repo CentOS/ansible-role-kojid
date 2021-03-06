@@ -51,6 +51,13 @@
     dest: /etc/kojid/kojid.conf
   notify: restart_kojid
 
+- name: Configuring mock site-defaults
+  template:
+    src: etc/mock/site-defaults.cfg.j2
+    dest: /etc/mock/site-defaults.cfg
+  tags:
+    - config
+
 - name: Ensuring kojid is started and enabled
   service:
     name: kojid

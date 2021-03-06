@@ -44,6 +44,10 @@ kojid_buildtools_repo_gpgkey: RPM-GPG-KEY-CentOS-Infra
 # Do we need to disable default route
 kojid_set_default_nullroute: False
 
+# This option will disable the bootstrap_chroot in site-defaults.cfg if set to
+# true
+kojid_disable_bootstrap_chroot: False
+
 # Do we want to add other routes
 # Name of the networkmanager connection to use
 kojid_nmcli_con: eth0
