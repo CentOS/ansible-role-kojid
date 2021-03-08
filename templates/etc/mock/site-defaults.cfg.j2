@@ -1,0 +1,4 @@
+# Managed by ansible
+{% if kojid_disable_bootstrap_chroot %}
+config_opts['use_bootstrap'] = False
+{% endif %}
