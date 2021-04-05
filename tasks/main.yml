@@ -81,12 +81,13 @@
 - name: get the current default route
   command: "/usr/sbin/ip route show 0.0.0.0/0"
   register: default_route
+  when: not ansible_check_mode
   tags:
     - route
 
 - name: delete the default route if it is not localhost
   command: "/usr/sbin/ip route del default"
-  when: not '127.0.0.1' in default_route.stdout and kojid_set_default_nullroute
+  when: not ( default_route is skipped ) and not '127.0.0.1' in default_route.stdout and kojid_set_default_nullroute
   register: delete_default_route
   failed_when:
     - delete_default_route.rc !=0
