@@ -69,6 +69,19 @@ kojid_compose_user_list:
 kojid_image_builder: False
 kojid_runroot_builder: False
 
+kojid_runroot_mounts:
+  - name: path0
+    mountpoint: /compose
+    path: /compose
+    fstype: bind
+    options: bind
+  - name: path1
+    mountpoint: /mnt/koji
+    path: /mnt/koji
+    fstype: bind
+    options: bind
+
+
 # Zabbix config
 zabbix_kojid_templates:
   - Template CentOS Koji builder
