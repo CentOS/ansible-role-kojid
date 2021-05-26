@@ -1,0 +1,4 @@
+kojid_pkgs:
+  - "koji-builder-{{ koji_version }}.el8"
+  - mock
+  - createrepo_c

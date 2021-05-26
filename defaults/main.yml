@@ -1,6 +1,11 @@
 ---
 # defaults variables for kojid role
 # kojid is builder role
+
+# Which koji version (RPM / ENVR style) we want to deploy (cherry-picking version from repository and not `latest`). Should match also kojihub version
+koji_version: 1.23.0-1
+
+
 # Kojid settings
 kojid_vendor: CentOS
 kojid_packager:  builder@centos.org

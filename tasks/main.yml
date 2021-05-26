@@ -1,4 +1,12 @@
 ---
+- name: Importing specific distro variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags:
+    - vars
+
 
 - include_tasks: pki.yml
 
@@ -20,11 +28,8 @@
 
 - name: Ensuring koji pkgs are installed
   yum:
-    name: 
-      - koji-builder
-      - mock
-      - createrepo_c
-    state: latest
+    name: "{{ kojid_pkgs }}" 
+    state: installed
 
 - block:
     - name: Importing needed keytab for kojid if using kerberos auth
