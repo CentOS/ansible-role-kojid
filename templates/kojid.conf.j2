@@ -84,9 +84,6 @@ keytab = /etc/kojid/{{ koji_auth_keytab }}
 ;client certificate
 cert = /etc/pki/koji/{{ inventory_hostname}}.pem
 
-;certificate of the CA that issued the client certificate
-ca = /etc/pki/koji/{{ kojid_pki_cacert }}
-
 {% endif %}
 
 
