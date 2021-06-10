@@ -21,3 +21,12 @@
     dest: /etc/oz/oz.cfg
   notify:
     - restart_kojid
+
+- name: Include new osinfo definitions
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/share/osinfo/os/centos.org/{{ item }}"
+  with_items:
+    - centos-stream-9.xml
+  tags:
+    - osinfo
