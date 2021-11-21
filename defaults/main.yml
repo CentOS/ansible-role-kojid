@@ -61,6 +61,11 @@ kojid_nmcli_con: eth0
 #  - scm_server: 172.30.1.1 
 #    gateway: 192.168.1.1
 
+# Define some ulimit for kojibuilder
+kojid_ulimits_conf: False
+kojid_ulimits_nofiles: 10240
+
+
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False
 kojid_compose_user_list:

@@ -8,7 +8,6 @@
   tags:
     - vars
 
-
 - include_tasks: pki.yml
 
 - name: Add the buildtools repo if needed
@@ -106,6 +105,16 @@
   when: kojid_set_default_nullroute and not (delete_default_route is skipped)
   tags:
     - route
+
+- name: Applying ulimits.conf if needed
+  template:
+    src: koji-ulimits.conf.j2
+    dest: /etc/security/limits.d/koji-ulimits.conf
+  notify:
+    - restart_kojid
+  when: kojid_ulimits_conf
+  tags:
+    - ulimits
 
 - block:
     - name: Configuring zabbix agent
