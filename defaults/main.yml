@@ -62,6 +62,7 @@ kojid_nmcli_con: eth0
 #    gateway: 192.168.1.1
 
 # Define some ulimit for kojibuilder
+# Will also be applied for --isolation=auto so nspawn
 kojid_ulimits_conf: False
 kojid_ulimits_nofiles: 10240
 
