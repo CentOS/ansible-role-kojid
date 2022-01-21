@@ -129,6 +129,25 @@
     - monitoring
   when: zabbix_api_srv is defined
 
+- name: Ensuring we have koji builder plugins installed
+  yum:
+    name: koji-builder-plugins
+    state: installed
+  when: kojid_filestore_plugins
+  notify:
+    - restart_kojid
+
+- name: Distribute filestore plugins
+  copy: 
+    src: "{{ filestore }}/koji/{{ item }}"
+    dest: "/usr/lib/koji-builder-plugins/{{ item }}"
+  with_items: "{{ kojid_filestore_plugins }}"
+
+- name: configure kernel builders
+  include_tasks: kernel.yml
+  when: kojid_krb5_enabled_builder
+
+
 - name: Setting up nfs mount
   include_tasks: nfs.yml
   when: koji_nfs_mount

@@ -100,3 +100,7 @@ serverca = /etc/pki/koji/{{ kojid_serverca }}
 {% if kojid_runroot_builder %}
 plugins = runroot
 {% endif %}
+
+{% if kojid_krb5_enabled_builder %}
+plugins = kerberos
+{% endif %}

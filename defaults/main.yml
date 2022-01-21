@@ -80,6 +80,12 @@ kojid_compose_user_list:
 kojid_image_builder: False
 kojid_runroot_builder: False
 
+# Plugins distributed through the filestore
+kojid_filestore_plugins: []
+
+kojid_krb5_enabled_builder: False
+kojid_krb5_service_keytab:
+
 kojid_runroot_mounts:
   - name: path0
     mountpoint: /compose
