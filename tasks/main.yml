@@ -31,6 +31,30 @@
     name: "{{ kojid_pkgs }}" 
     state: installed
 
+- name: Systemd snippet directory
+  file:
+    path: /etc/systemd/system/kojid.service.d/
+    state: directory
+
+- block:
+    - name: Configuring kojid environment for proxy
+      template:
+        src: systemd-kojid-proxy.conf.j2
+        dest: /etc/systemd/system/kojid.service.d/proxy.conf
+        mode: 0644
+      register: kojid_systemd_override
+      notify:
+        - restart_kojid
+
+    - name: Reloading systemd if needed
+      systemd:
+        daemon-reload: yes
+      when: kojid_systemd_override is changed
+
+  when: kojid_use_proxy
+  tags:
+    - proxy
+
 - block:
     - name: Importing needed keytab for kojid if using kerberos auth
       copy:
@@ -147,7 +171,7 @@
   yum:
     name: koji-builder-plugins
     state: installed
-  when: kojid_filestore_plugins
+  when: kojid_filestore_plugins is defined
   notify:
     - restart_kojid
 
@@ -156,6 +180,7 @@
     src: "{{ filestore }}/koji/{{ item }}"
     dest: "/usr/lib/koji-builder-plugins/{{ item }}"
   with_items: "{{ kojid_filestore_plugins }}"
+  when: kojid_filestore_plugins is defined
 
 - name: configure kernel builders
   include_tasks: kernel.yml

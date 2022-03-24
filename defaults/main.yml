@@ -71,6 +71,10 @@ kojid_nmcli_con: eth0
 kojid_ulimits_conf: False
 kojid_ulimits_nofiles: 10240
 
+# Do we want to define a proxy/cache for kojid ?
+# This would allow to use external git repositories (like gitlab/etc)
+kojid_use_proxy: False
+kojid_proxy_url: http://proxy.domain:8080
 
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False
@@ -85,8 +89,9 @@ kojid_compose_user_list:
 kojid_image_builder: False
 kojid_runroot_builder: False
 
-# Plugins distributed through the filestore
-kojid_filestore_plugins: []
+# Plugins distributed through the filestore and not from role
+# not defined by default
+# kojid_filestore_plugins: []
 
 kojid_krb5_enabled_builder: False
 kojid_krb5_service_keytab:
