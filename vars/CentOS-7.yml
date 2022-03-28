@@ -1,4 +1,4 @@
 kojid_pkgs:
-  - "koji-builder-{{ koji_version }}.el7"
+  - "koji-builder-{{ koji_version }}.el7.centos"
   - mock
   - createrepo_c
