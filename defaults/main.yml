@@ -75,6 +75,7 @@ kojid_ulimits_nofiles: 10240
 # This would allow to use external git repositories (like gitlab/etc)
 kojid_use_proxy: False
 kojid_proxy_url: http://proxy.domain:8080
+kojid_no_proxy_string: 127.0.0.1,::1,localhost,localhost.localdomain,localhost4,localhost4.localdomain4,localhost6,localhost6.localdomain6
 
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False
