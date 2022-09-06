@@ -87,6 +87,18 @@
   tags:
     - config
 
+- name: Adding host on kojihub if needed
+  shell: |
+    koji list-hosts --quiet|grep -q {{ kojid_pki_client_cert | replace(".crt","") }} && /bin/true || ( koji add-host {{ kojid_pki_client_cert | replace(".crt","") }} {{ ansible_architecture }} ; exit 2)
+  register: host_result
+  changed_when: host_result.rc == 2
+  failed_when: host_result.rc == 1
+  become_user: "{{ kojid_hub_user }}"
+  delegate_to: "{{ kojid_hub_host }}"
+  when: kojid_automatic_host_add
+  tags:
+    - host
+
 - name: Ensuring kojid is started and enabled
   service:
     name: kojid

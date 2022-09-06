@@ -2,9 +2,17 @@
 # defaults variables for kojid role
 # kojid is builder role
 
-# Which koji version (RPM / ENVR style) we want to deploy (cherry-picking version from repository and not `latest`). Should match also kojihub version
-koji_version: 1.23.0-1
+# Ideally all settings should be common in a group variable, apart from cert/key per host
+# We'll try to to add automatically new hosts to koji (default channel only) but we need to define kojihub fqdn and which koji user/profile to become to automate that
+# Note that all other arches/channels/capacity tuning have to be done after through koji
+# By default we'll set that to False (it's assuming crt and no keytab so to be enhanced later)
+kojid_automatic_host_add: False
+kojid_hub_host: kojihub.domain.com
+kojid_hub_user: koji
 
+
+# Which koji version (RPM / ENVR style) we want to deploy (cherry-picking version from repository and not `latest`). Should match also kojihub version
+koji_version: 1.29.1-1
 
 # Kojid settings
 kojid_vendor: CentOS
@@ -37,23 +45,25 @@ koji_nfs_path: nfs-host.domain.com:/exports/kojishare
 # if False, we'll copy kojid_serverca to correct location
 kojid_serverca_bundle: True
 kojid_serverca: koji_ca_cert.crt
+
+# From which SCM repositories we'll allow to build from (git/gitlab/etc)
 kojid_allowed_scms: scm.example.com:/cvs/example git.example.org:/example svn.example.org:/users/*:no
 
 # Do we need new repo dedicated to new pkgs (rpm,mock, etc)
 kojid_buildtools_repo: False
-kojid_buildtools_repo_host: https://localhost/
-kojid_buildtools_repo_url: "{{ kojid_buildtools_repo_host }}/builder/$basearch/"
 kojid_buildtools_repo_gpgcheck: False
 kojid_buildtools_repo_gpgkey: RPM-GPG-KEY-CentOS-Infra
 
+# Network settings : important
+# either we delete default route to ensure we don't reach internet 
+# or depending on env, we can just also have no way to get out but also then we need to use a proxy
+# See below options about adding specific routes through firewall/gateway
+# or newer/easier way : pass all traffic to proxy (where ACLs are defined)
+ 
 # Do we need to disable default route
 kojid_set_default_nullroute: False
 
-# This option will disable the bootstrap_chroot in site-defaults.cfg if set to
-# true
-kojid_disable_bootstrap_chroot: False
-
-# Do we want to add other routes
+# Do we want to add other routes then to specific SCMs ?
 # Name of the networkmanager connection to use
 kojid_nmcli_con: eth0
 # If so we can define it like this :
@@ -66,16 +76,20 @@ kojid_nmcli_con: eth0
 #   - scm_server: 172.32.1.1
 #     gateway: 192.168.1.1
 
-# Define some ulimit for kojibuilder
-# Will also be applied for --isolation=auto so nspawn
-kojid_ulimits_conf: False
-kojid_ulimits_nofiles: 10240
-
 # Do we want to define a proxy/cache for kojid ?
 # This would allow to use external git repositories (like gitlab/etc)
 kojid_use_proxy: False
 kojid_proxy_url: http://proxy.domain:8080
 kojid_no_proxy_string: 127.0.0.1,::1,localhost,localhost.localdomain,localhost4,localhost4.localdomain4,localhost6,localhost6.localdomain6
+
+# This option will disable the bootstrap_chroot in site-defaults.cfg if set to
+# true
+kojid_disable_bootstrap_chroot: False
+
+# Define some ulimit for kojibuilder
+# Will also be applied for --isolation=auto so nspawn
+kojid_ulimits_conf: False
+kojid_ulimits_nofiles: 10240
 
 # Do we need additional user for compose (user with ssh/mock access)
 kojid_compose_user: False

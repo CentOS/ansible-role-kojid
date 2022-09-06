@@ -14,13 +14,13 @@ gpgkey=file:///etc/pki/rpm-gpg/{{ kojid_buildtools_repo_gpgkey }}
 {% elif centos_infra_env == 'stg' %}
 [centos-buildtools-common]
 name=CentOS STG koji buildtools repository
-baseurl=http://buildlogs.centos.org/centos/$releasever/infra/$basearch/buildtools-common/
+baseurl=https://buildlogs.centos.org/centos/$releasever/infra/$basearch/buildtools-common/
 enabled=1
 gpgcheck=0
 {% else %}
 [centos-buildtools-common]
 name=CentOS dev koji buildtools repository
-baseurl=http://repo.dev.centos.org/$releasever/infra/buildtools-common/$basearch/
+baseurl=https://repo.dev.centos.org/$releasever/infra/buildtools-common/$basearch/
 enabled=1
 gpgcheck=0
 {% endif %}
