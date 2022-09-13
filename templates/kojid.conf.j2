@@ -97,10 +97,7 @@ serverca = /etc/pki/koji/{{ kojid_serverca }}
 ;if set to True, failing subtask will not automatically cancel other siblings
 ;build_arch_can_fail = False
 
-{% if kojid_runroot_builder %}
-plugins = runroot
+{% if kojid_plugins %}
+plugins = {% for plugin in kojid_plugins_list %}{{ plugin }} {% endfor %}
 {% endif %}
 
-{% if kojid_krb5_enabled_builder %}
-plugins = kerberos
-{% endif %}

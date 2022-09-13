@@ -5,4 +5,4 @@ kojid_pkgs:
   - createrepo_c
 
 kojid_kiwi_pkg: python3-kiwi  
-kojid_crb_repo: powertools
+kojid_crb_repo: crb

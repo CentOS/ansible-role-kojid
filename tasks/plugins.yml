@@ -1,0 +1,54 @@
+# This file will define all plugins and each block will be one plugin
+# It will parse kojid_plugins_list and apply block if needed
+
+# runroot plugin
+- name: Runroot plugin
+  block:
+    - name: Template the runroot config
+      template:
+        src: runroot.conf.j2
+        dest: /etc/kojid/plugins/runroot.conf
+      notify:
+        - restart_kojid
+  when: "'runroot' in kojid_plugins_list"
+  tags:
+    - plugins
+
+
+# kerberos/pesign kernel plugin (distributed from filestore / non koji default plugin)
+- name: Kerberos/kernel builder plugin
+  block:
+    - name: install kerberos packages
+      package:
+        name:
+          - krb5-workstation
+        state: installed
+
+    - name: install signing service keytabs on kernel builders
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/pesign.keytab"
+      with_first_found:
+        - "{{ pkistore }}/koji/{{ inventory_hostname }}.keytab"
+        - "{{ pkistore }}/koji/autopesign-{{ inventory_hostname }}.keytab"
+        - "{{ pkistore }}/koji/centos-stream.keytab"
+        - "{{ pkistore }}/koji/empty.keytab"
+  when: "'kerberos' in kojid_plugins_list"
+  tags:
+    - plugins
+
+# kiwi plugin
+- name: Kiwi builder plugin
+  block:
+    - name: Ensuring kiwi pkgs on kojid builder
+      yum:
+        name: "{{ kojid_kiwi_pkg }}"
+        state: installed
+        enablerepo: "{{ kojid_crb_repo }}"
+  when: "'kiwi' in kojid_plugins_list"
+  tags:
+    - plugins
+
+      
+
+

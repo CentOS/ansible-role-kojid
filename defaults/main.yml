@@ -102,15 +102,26 @@ kojid_compose_user_list:
 
 # Is the host also building images through imagefactory ("image" channel in koji)
 kojid_image_builder: False
-kojid_runroot_builder: False
+
+# Koji Plugins
+# Do we want to support plugins (boolean)
+kojid_plugins: False
+
+# If enabled, which plugins do we want to enable
+# Empty list by default but we support the following plugins:
+# kojid_plugins_list:
+#   - runroot   # default from kojid, nothing to distribute
+#   - kiwi      # default from kojid, enable kiwi image builds
+#   - kerberos  # custom, not from kojid, enable kernel builders to use krb5 for pesign
+#
+kojid_plugins_list: []
 
 # Plugins distributed through the filestore and not from role
-# not defined by default
+# not defined by default, and it should match name in kojid_plugins_list
 # kojid_filestore_plugins: []
 
-kojid_krb5_enabled_builder: False
-kojid_krb5_service_keytab:
-
+# Plugins configuration (if needed) and default values
+# runroot settings
 kojid_runroot_mounts:
   - name: path0
     mountpoint: /compose
