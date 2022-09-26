@@ -30,6 +30,8 @@
   yum:
     name: "{{ kojid_pkgs }}" 
     state: installed
+  notify:
+    - restart_kojid
 
 - name: Systemd snippet directory
   file:
