@@ -179,7 +179,9 @@
   delegate_to: "{{ zabbix_api_srv }}"  
   tags:
     - monitoring
-  when: zabbix_api_srv is defined
+  when: 
+    - zabbix_api_srv is defined
+    - zabbix_monitoring
 
 - name: Distribute filestore plugins
   copy: 
