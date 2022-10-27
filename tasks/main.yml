@@ -30,6 +30,7 @@
   yum:
     name: "{{ kojid_pkgs }}" 
     state: installed
+    update_cache: True
   notify:
     - restart_kojid
 
