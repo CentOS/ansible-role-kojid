@@ -54,7 +54,7 @@
         - centos-kojid-kiwi.pp
 
     - name: reload custom selinux files
-      shell: /usr/sbin/semodule -u "/etc/selinux/centos/centos-zabbix-agent.pp"
+      shell: /usr/sbin/semodule -u "/etc/selinux/centos/centos-kojid-kiwi.pp"
       when: ansible_selinux.status == "enabled" and sepolicy.changed
     
   when: "'kiwi' in kojid_plugins_list"
