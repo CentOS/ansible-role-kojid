@@ -159,15 +159,32 @@
   tags:
     - route
 
-- name: Applying ulimits.conf if needed
-  template:
-    src: koji-ulimits.conf.j2
-    dest: /etc/security/limits.d/koji-ulimits.conf
-  notify:
-    - restart_kojid
+- block:
+    - name: Applying ulimits.conf if needed
+      template:
+        src: koji-ulimits.conf.j2
+        dest: /etc/security/limits.d/koji-ulimits.conf
+      notify:
+        - restart_kojid
+      
+    - name: Configuring kojid environment for ulimits
+      template:
+        src: systemd-kojid-ulimits.conf.j2
+        dest: /etc/systemd/system/kojid.service.d/ulimits.conf
+        mode: 0644
+      register: kojid_systemd_override
+      notify:
+        - restart_kojid
+
+    - name: Reloading systemd if needed
+      systemd:
+        daemon-reload: yes
+      when: kojid_systemd_override is changed
+
   when: kojid_ulimits_conf
   tags:
     - ulimits
+
 
 - block:
     - name: Configuring zabbix agent
