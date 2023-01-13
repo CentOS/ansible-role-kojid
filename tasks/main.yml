@@ -231,3 +231,19 @@
   when: kojid_image_builder
   tags:
     - image
+
+- block:
+    - name: Distribute kojid TLS validity check script
+      template:
+        src: kojid-tls-check.j2
+        dest: /usr/libexec/centos/kojid-tls-check
+        mode: '0750'
+        owner: root
+    - name: Reporting TLS validity value to zabbix
+      cron:
+        name: kojid tls cert check
+        job: /usr/libexec/centos/kojid-tls-check
+        minute: '*/30'
+  when: koji_auth_tls
+  tags:
+    - monitoring
