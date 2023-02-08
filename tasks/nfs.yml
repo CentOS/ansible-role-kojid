@@ -21,4 +21,33 @@
     dest: /mnt/koji
     state: link
 
+- block:
+    - name: Ensuring addtional volume[s] is/are defined
+      ansible.posix.mount:
+        src: "{{ item.src }}"
+        path: "{{ item.dest }}"
+        fstype: nfs
+        state: present
+      register: additional_mountpoints
+      with_items: "{{ koji_nfs_additional_mountpoints }}"
+      loop_control:
+        label: "{{ item.dest }}"
+      tags:
+        - nfs
+
+    - name: Ensuring addtional volume[s] is/are mounted
+      ansible.posix.mount:
+        src: "{{ item.item.src }}"
+        path: "{{ item.item.dest }}"
+        fstype: nfs
+        state: mounted
+      with_items: "{{ additional_mountpoints.results }}"
+      when: item.changed
+      loop_control:
+        label: "{{ item.item.dest }}"
+      tags:
+        - nfs
+  when:
+    - koji_nfs_mount
+    - koji_nfs_mount_multi
 
