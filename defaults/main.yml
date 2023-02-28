@@ -34,7 +34,8 @@ koji_auth_kerberos: False
 koji_auth_realm: EXAMPLE.COM
 koji_auth_principal: compile/%s@EXAMPLE.COM
 koji_auth_keytab: kojid.keytab
-
+# importing tuned krb5.conf (krb5-client role) if needed for complex REALMS
+koji_auth_gssapi_localname: False
 
 # Do we want to mount storage over nfs for createrepo channel ?
 koji_nfs_mount: False

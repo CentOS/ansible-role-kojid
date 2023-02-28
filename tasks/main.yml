@@ -65,6 +65,9 @@
         dest: "/etc/kojid/{{ koji_auth_keytab }}"
       notify: restart_kojid
 
+    - include_role:
+        name: krb5-client
+      when: koji_auth_gssapi_localname
   when: koji_auth_kerberos
 
 - name: Adding/updating more pkgs if we need buildtools repo
