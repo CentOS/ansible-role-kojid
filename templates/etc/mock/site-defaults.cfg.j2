@@ -8,3 +8,6 @@ config_opts['nspawn_args'] += ['--rlimit=RLIMIT_NOFILE={{ kojid_ulimits_nofiles 
 {% endif %}
 
 config_opts['dnf_disable_plugins'] = ['versionlock'] 
+{% raw %}
+config_opts['useradd'] = '/usr/sbin/useradd -m -u {{chrootuid}} -g {{chrootgid}} -d {{chroothome}} -N {{chrootuser}}'
+{% endraw %}
