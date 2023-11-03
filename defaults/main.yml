@@ -13,6 +13,8 @@ kojid_hub_user: koji
 
 # Which koji version (RPM / ENVR style) we want to deploy (cherry-picking version from repository and not `latest`). Should match also kojihub version
 koji_version: 1.29.1-1
+# Which mock version to deploy (useful sometimes to pin to specific version based on env/inventory)
+kojid_mock_version: 2.8-1
 
 # Kojid settings
 kojid_vendor: CentOS

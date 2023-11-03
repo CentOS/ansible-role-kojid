@@ -1,8 +1,1 @@
-kojid_pkgs:
-  - "koji-builder-{{ koji_version }}.el8"
-  - "koji-builder-plugins-{{ koji_version }}.el8"
-  - mock
-  - createrepo_c
-
-kojid_kiwi_pkg: python3-kiwi  
-kojid_crb_repo: powertools
+RedHat-8.yml

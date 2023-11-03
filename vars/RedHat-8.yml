@@ -1,7 +1,7 @@
 kojid_pkgs:
   - "koji-builder-{{ koji_version }}.el8"
   - "koji-builder-plugins-{{ koji_version }}.el8"
-  - mock
+  - "mock-{{ kojid_mock_version }}.el8"
   - createrepo_c
 
 kojid_kiwi_pkg: python3-kiwi  
