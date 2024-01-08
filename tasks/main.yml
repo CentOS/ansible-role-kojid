@@ -88,6 +88,9 @@
     src: kojid.conf.j2
     dest: /etc/kojid/kojid.conf
   notify: restart_kojid
+  tags:
+    - config
+    - plugins
 
 - name: Configuring mock site-defaults
   template:
@@ -95,6 +98,7 @@
     dest: /etc/mock/site-defaults.cfg
   tags:
     - config
+    - rpmautospec
 
 - name: Adding host on kojihub if needed
   shell: |
@@ -219,6 +223,14 @@
   when: kojid_plugins
   tags:
     - plugins
+
+- name: Include rpmautospec plugin
+  yum:
+    name: "{{ mock_rpmautospec_pkg }}"
+    state: installed
+  when: kojid_rpmautospec
+  tags:
+    - rpmautospec
 
 - name: Setting up nfs mount
   include_tasks: nfs.yml

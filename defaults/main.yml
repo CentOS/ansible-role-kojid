@@ -130,6 +130,12 @@ kojid_plugins: False
 #
 kojid_plugins_list: []
 
+# Rpmautospec
+# rpmautospec isn't a koji plugin but a mock plugin : it just needs mock-rpmautospec pkg to be installed
+# and plugin enabled in mock site-defaults.cfg
+# Do we want to enable it ? (default is False)
+kojid_rpmautospec: False
+
 # Plugins distributed through the filestore and not from role
 # not defined by default, and it should match name in kojid_plugins_list
 # kojid_filestore_plugins: []

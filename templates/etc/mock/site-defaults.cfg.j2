@@ -11,3 +11,8 @@ config_opts['dnf_disable_plugins'] = ['versionlock']
 {% raw %}
 config_opts['useradd'] = '/usr/sbin/useradd -m -u {{chrootuid}} -g {{chrootgid}} -d {{chroothome}} -N {{chrootuser}}'
 {% endraw %}
+
+{% if kojid_rpmautospec %}
+# Enabling rpmautospec mock plugin 
+config_opts['plugin_conf']['rpmautospec_enable'] = True
+{% endif %}
