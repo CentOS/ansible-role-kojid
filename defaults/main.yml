@@ -92,6 +92,13 @@ kojid_nmcli_con: eth0
 
 # Do we want to define a proxy/cache for kojid ?
 # This would allow to use external git repositories (like gitlab/etc)
+# Preferred method : only for git checkouts !
+# Would configure system-wide /etc/gitconfig to enforce proxy for http/https git operations
+kojid_scm_use_proxy: False
+kojid_scm_proxy_url: http://proxy.domain:8080
+
+# old and unpreferred method : system-wide for kojid service so everything (including connecting to kojihub/retrieve pkgs, etc)
+# Basically exporting http_proxy,https_proxy env variables in kojid systemd unit
 kojid_use_proxy: False
 kojid_proxy_url: http://proxy.domain:8080
 kojid_no_proxy_string: 127.0.0.1,::1,localhost,localhost.localdomain,localhost4,localhost4.localdomain4,localhost6,localhost6.localdomain6

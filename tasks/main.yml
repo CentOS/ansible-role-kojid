@@ -62,6 +62,25 @@
     - proxy
 
 - block:
+    - name: Ensuring no systemd kojid proxy.conf is present
+      file:
+        path: /etc/systemd/system/kojid.service.d/proxy.conf
+        state: absent
+      register: kojid_systemd_override
+      notify:
+        - restart_kojid
+
+    - name: Reloading systemd if needed
+      systemd:
+        daemon-reload: yes
+      when: kojid_systemd_override is changed
+
+  when: not kojid_use_proxy
+  tags:
+    - proxy
+
+
+- block:
     - name: Importing needed keytab for kojid if using kerberos auth
       copy:
         src: "{{ pkistore }}/koji/{{ koji_auth_keytab }}"
@@ -195,6 +214,16 @@
   tags:
     - ulimits
 
+- name: Configuring system-wide git proxy
+  template:
+    src: etc/gitconfig.j2
+    dest: /etc/gitconfig
+    owner: root
+    group: root
+    mode: '0755'
+  when: kojid_scm_use_proxy
+  tags:
+    - proxy
 
 - block:
     - name: Configuring zabbix agent
