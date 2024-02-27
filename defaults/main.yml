@@ -82,12 +82,12 @@ kojid_set_default_nullroute: False
 kojid_nmcli_con: eth0
 # If so we can define it like this :
 #kojid_add_route_to_scm:
-#  - scm_server: 172.30.1.1 
+#  - scm_server: 172.30.1.1/32 
 #    gateway: 192.168.1.1
 
 # Same to then remove unneeded routes
 # kojid_del_route_to_scm:
-#   - scm_server: 172.32.1.1
+#   - scm_server: 172.32.1.0/24
 #     gateway: 192.168.1.1
 
 # Do we want to define a proxy/cache for kojid ?

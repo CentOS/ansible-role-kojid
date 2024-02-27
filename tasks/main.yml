@@ -137,54 +137,45 @@
     state: started
     enabled: True
 
+# Some packages need a default route defined (not necessarily reachable)
+# See: https://bugs.ruby-lang.org/issues/13864
+# We can define one that points at localhost to stop any outbound tracffic
+# but have a route defined
+
+- name: Modify default route if needed
+  shell:
+    cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.gateway|grep -q 127.0.0.1 || (nmcli con mod \"{{ kojid_nmcli_con }}\" ipv4.gateway 127.0.0.1 && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2 )
+         "
+  register: defroute
+  changed_when: defroute.rc == 2
+  failed_when: defroute.rc == 1
+  when: kojid_set_default_nullroute
+  tags:
+    - route
 
 - name: Add static route[s] if needed
   shell: 
-    cmd: "nmcli con mod \"{{ kojid_nmcli_con }}\" +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" 
-         && nmcli con up \"{{ kojid_nmcli_con }}\" 
+    cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.routes|egrep -q 'ip = {{ item.scm_server }}, nh = {{ item.gateway }}' || (nmcli con mod \"{{ kojid_nmcli_con }}\" +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2) 
          "
   with_items:
     - "{{ kojid_add_route_to_scm }}"
   when: kojid_add_route_to_scm is defined
+  register: addedroute
+  changed_when: addedroute.rc == 2
+  failed_when: addedroute.rc == 1
   tags:
     - route
 
 - name: Remove static route[s] if needed
   shell: 
-    cmd: "nmcli con mod \"{{ kojid_nmcli_con }}\" -ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" 
-         && nmcli con up \"{{ kojid_nmcli_con }}\" 
+    cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.routes|egrep -q 'ip = {{ item.scm_server }}, nh = {{ item.gateway }}' || exit 0 && (nmcli con mod \"{{ kojid_nmcli_con }}\" -ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2)
          "
   with_items:
     - "{{ kojid_del_route_to_scm }}"
   when: kojid_del_route_to_scm is defined
-  tags:
-    - route
-
-
-# Some packages need a default route defined (not necessarily reachable)
-# See: https://bugs.ruby-lang.org/issues/13864
-# We can define one that points at localhost to stop any outbound tracffic
-# but have a route defined
-- name: get the current default route
-  command: "/usr/sbin/ip route show 0.0.0.0/0"
-  register: default_route
-  when: not ansible_check_mode
-  tags:
-    - route
-
-- name: delete the default route if it is not localhost
-  command: "/usr/sbin/ip route del default"
-  when: not ( default_route is skipped ) and not '127.0.0.1' in default_route.stdout and kojid_set_default_nullroute
-  register: delete_default_route
-  failed_when:
-    - delete_default_route.rc !=0
-    - '"No such process" not in delete_default_route.stderr'
-  tags:
-    - route
-
-- name: add the null default route
-  command: "/usr/sbin/ip route add default via 127.0.0.1"
-  when: kojid_set_default_nullroute and not (delete_default_route is skipped)
+  register: deletedroute
+  changed_when: deletedroute.rc == 2
+  failed_when: deletedroute.rc == 1
   tags:
     - route
 
