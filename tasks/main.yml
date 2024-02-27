@@ -137,22 +137,7 @@
     state: started
     enabled: True
 
-# Some packages need a default route defined (not necessarily reachable)
-# See: https://bugs.ruby-lang.org/issues/13864
-# We can define one that points at localhost to stop any outbound tracffic
-# but have a route defined
-
-- name: Modify default route if needed
-  shell:
-    cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.gateway|grep -q 127.0.0.1 || (nmcli con mod \"{{ kojid_nmcli_con }}\" ipv4.gateway 127.0.0.1 && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2 )
-         "
-  register: defroute
-  changed_when: defroute.rc == 2
-  failed_when: defroute.rc == 1
-  when: kojid_set_default_nullroute
-  tags:
-    - route
-
+# It can be that we'll have to route traffic through specific gateway (especially is null-routed, see below)
 - name: Add static route[s] if needed
   shell: 
     cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.routes|egrep -q 'ip = {{ item.scm_server }}, nh = {{ item.gateway }}' || (nmcli con mod \"{{ kojid_nmcli_con }}\" +ipv4.routes \"{{ item.scm_server }} {{ item.gateway }}\" && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2) 
@@ -178,6 +163,23 @@
   failed_when: deletedroute.rc == 1
   tags:
     - route
+
+# Some packages need a default route defined (not necessarily reachable)
+# See: https://bugs.ruby-lang.org/issues/13864
+# We can define one that points at localhost to stop any outbound tracffic
+# but have a route defined
+
+- name: Modify default route if needed
+  shell:
+    cmd: "nmcli con show \"{{ kojid_nmcli_con }}\"|grep ipv4.gateway|grep -q 127.0.0.1 || (nmcli con mod \"{{ kojid_nmcli_con }}\" ipv4.gateway 127.0.0.1 && nmcli con up \"{{ kojid_nmcli_con }}\" && exit 2 )
+         "
+  register: defroute
+  changed_when: defroute.rc == 2
+  failed_when: defroute.rc == 1
+  when: kojid_set_default_nullroute
+  tags:
+    - route
+
 
 - block:
     - name: Applying ulimits.conf if needed
