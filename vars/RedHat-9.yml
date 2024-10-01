@@ -1,0 +1,11 @@
+kojid_pkgs:
+  - "koji-builder-{{ koji_version }}.el9"
+  - "koji-builder-plugins-{{ koji_version }}.el9"
+  - "mock-{{ kojid_mock_version }}.el9"
+  - "mock-filesystem-{{ kojid_mock_version }}.el9"
+  - createrepo_c
+
+mock_rpmautospec_pkg: "mock-rpmautospec-{{ kojid_mock_version }}.el9"
+
+kojid_kiwi_pkg: python3-kiwi  
+kojid_crb_repo: crb
