@@ -50,12 +50,21 @@ topurl={{ kojid_kojifiles_url }}
 ; use createrepo_c rather than createrepo
 use_createrepo_c=True
 
+{% if kojid_scm_policy_builder %}
+allowed_scms_use_config=true 
+allowed_scms_use_policy=false 
 ; A space-separated list of hostname:repository[:use_common] tuples that kojid is authorized to checkout from (no quotes).
 ; Wildcards (as supported by fnmatch) are allowed.
 ; If use_common is specified and is one of "false", "no", "off", or "0" (without quotes), then kojid will not attempt to checkout
 ; a common/ dir when checking out sources from the source control system.  Otherwise, it will attempt to checkout a common/
 ; dir, and will raise an exception if it cannot.
 allowed_scms={{ kojid_allowed_scms }}
+{% endif %}
+
+{% if kojid_scm_policy_hub %}
+allowed_scms_use_config=false
+allowed_scms_use_policy=true 
+{% endif %}
 
 ; The mail host to use for sending email notifications
 smtphost=example.com

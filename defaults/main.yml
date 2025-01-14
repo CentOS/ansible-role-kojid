@@ -60,7 +60,12 @@ koji_nfs_additional_mountpoints:
 kojid_serverca_bundle: True
 kojid_serverca: koji_ca_cert.crt
 
-# From which SCM repositories we'll allow to build from (git/gitlab/etc)
+# SCM policies : it can be now using hub policy (non default and new in koji 1.3x) or builder policy (default/previous)
+# Let's turn only *one* boolean so that it would then be using either local or centralized (hub) policy for SCM rules
+kojid_scm_policy_hub: False
+
+kojid_scm_policy_builder: True
+# From which SCM repositories we'll allow to build from (git/gitlab/etc) (used only if kojid_scm_policy_builder is set to True (not coming from kojihub)
 kojid_allowed_scms: scm.example.com:/cvs/example git.example.org:/example svn.example.org:/users/*:no
 
 # Do we need new repo dedicated to new pkgs (rpm,mock, etc)
