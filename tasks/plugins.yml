@@ -61,6 +61,20 @@
   tags:
     - plugins
 
+# image_builder (osbuild) plugin
+- name: Image_builder builder plugin
+  block:
+    - name: Ensuring image-builder pkgs on kojid builder
+      yum:
+        name: koji-image-builder-builder
+        state: installed
+    
+  when: "'image_builder' in kojid_plugins_list"
+  tags:
+    - plugins
+
+      
+
       
 
 

@@ -127,6 +127,8 @@ kojid_compose_user_list:
       - ssh-rsa blablabla
 
 # Is the host also building images through imagefactory ("image" channel in koji)
+# WARNING : that name was used for imagefactory only but we'll now support osbuild/image_builder (osbuild.org)
+# through a plugin, so *not* related to this old variable name for imagefactory !
 kojid_image_builder: False
 
 # Koji Plugins
@@ -139,6 +141,7 @@ kojid_plugins: False
 #   - runroot   # default from kojid, nothing to distribute
 #   - kiwi      # default from kojid, enable kiwi image builds
 #   - kerberos  # custom, not from kojid, enable kernel builders to use krb5 for pesign
+#   - image_builder # osbuild plugin so *not* imagefactory but plugin name for osbuild is named image_builder
 #
 kojid_plugins_list: []
 
