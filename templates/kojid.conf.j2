@@ -17,7 +17,7 @@ topdir=/mnt/koji
 workdir=/tmp/koji
 
 ; The directory root for mock
-mockdir=/var/lib/mock
+mockdir={{ kojid_custom_mockdir_path | default('/var/lib/mock') }}
 
 ; The user to run as when doing builds
 mockuser=kojibuilder

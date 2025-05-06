@@ -24,6 +24,11 @@ kojid_xmlrpc_url: http://localhost/kojihub
 kojid_kojifiles_url: http://localhost/kojifiles
 kojid_maxjobs: 20
 kojid_minspace: 8192
+# Do we want to define an alternate builddir for mock (default to /var/lib/mock for chroot'ed build environments
+# Can be needed due to partition/disk space/other requirement
+kojid_custom_mockdir: False
+kojid_custom_mockdir_path: /var/lib/mock
+
 
 # Authentication : pick one to turn boolean on : tls or kerberos and then update needed variables
 # TLS auth

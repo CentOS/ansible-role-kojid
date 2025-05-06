@@ -102,6 +102,19 @@
     state: latest
   when: kojid_buildtools_repo
 
+- name: Ensuring custom mockdir path exists if defined
+  file:
+    path: "{{ kojid_custom_mockdir_path }}"
+    state: directory
+    owner: root
+    group: mock
+    mode: '0755'
+    setype: var_lib_t
+  when:
+    - kojid_custom_mockdir
+  tags:
+    - mock
+
 - name: Configuring kojid
   template:
     src: kojid.conf.j2
