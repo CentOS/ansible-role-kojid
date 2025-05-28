@@ -286,6 +286,25 @@
     - image
 
 - block:
+    - name: Ensuring rgnd-tools are installed on kvm guests (entropy)
+      yum:
+        name: rng-tools
+        state: latest
+
+    - name: Ensuring rngd service is started on kvm guests
+      service:
+        name: rngd
+        state: started
+        enabled: True
+  tags:
+    - rngd
+    - rng
+  when:
+    - ansible_virtualization_role is defined
+    - ansible_virtualization_role == 'guest'
+
+
+- block:
     - name: Distribute kojid TLS validity check script
       template:
         src: kojid-tls-check.j2
