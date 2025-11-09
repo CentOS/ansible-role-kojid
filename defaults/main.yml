@@ -22,6 +22,7 @@ kojid_packager:  builder@centos.org
 kojid_distribution: CentOS
 kojid_xmlrpc_url: http://localhost/kojihub
 kojid_kojifiles_url: http://localhost/kojifiles
+kojid_sleeptime: 5 # default time to wait between tasks to ask for more tasks on kojihub
 kojid_maxjobs: 20
 kojid_minspace: 8192
 # Do we want to define an alternate builddir for mock (default to /var/lib/mock for chroot'ed build environments
