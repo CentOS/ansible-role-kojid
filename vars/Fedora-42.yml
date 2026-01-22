@@ -1,0 +1,11 @@
+kojid_pkgs:
+  - "koji-builder-{{ koji_version }}.fc42"
+  - "koji-builder-plugins-{{ koji_version }}.fc42"
+  - "mock-{{ kojid_mock_version }}.fc42"
+  - "mock-filesystem-{{ kojid_mock_version }}.fc42"
+  - createrepo_c
+
+mock_rpmautospec_pkg: "mock-rpmautospec-{{ kojid_mock_version }}.fc42"
+
+kojid_kiwi_pkg: python3-kiwi  
+kojid_crb_repo: fedora-riscv
