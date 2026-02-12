@@ -25,6 +25,8 @@ kojid_kojifiles_url: http://localhost/kojifiles
 kojid_sleeptime: 5 # default time to wait between tasks to ask for more tasks on kojihub
 kojid_maxjobs: 20
 kojid_minspace: 8192
+# How long before we consider a job not finished and so killing chroot/build env ? upstream default is 86400 (24h)
+kojid_rpmbuild_timeout: 86400
 # Do we want to define an alternate builddir for mock (default to /var/lib/mock for chroot'ed build environments
 # Can be needed due to partition/disk space/other requirement
 kojid_custom_mockdir: False

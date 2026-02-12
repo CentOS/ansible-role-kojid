@@ -39,7 +39,7 @@ distribution={{ kojid_distribution }}
 mockhost=redhat-linux-gnu
 
 ; Timeout for build duration (24 hours)
-; rpmbuild_timeout=86400
+rpmbuild_timeout={{ kojid_rpmbuild_timeout }}
 
 ; The URL for the xmlrpc server
 server={{ kojid_xmlrpc_url }}
