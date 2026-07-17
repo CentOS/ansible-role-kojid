@@ -1,4 +1,4 @@
-# This file is managed by puppet, don't change it
+# This file is managed by Ansible, don't change it
 [kojid]
 
 ; The number of seconds to sleep between tasks
@@ -110,3 +110,10 @@ serverca = /etc/pki/koji/{{ kojid_serverca }}
 plugins = {% for plugin in kojid_plugins_list %}{{ plugin }} {% endfor %}
 {% endif %}
 
+; other default settings from kojid but can be overriden too
+; See https://docs.pagure.org/koji/kojid_conf/
+log_level = {{ kojid_log_level }}
+offline_retry = {{ kojid_offline_retry }}
+offline_retry_interval = {{ kojid_offline_retry_interval }}
+retry_interval = {{ kojid_retry_interval }}
+failed_buildroot_lifetime = {{ kojid_failed_buildroot_lifetime }}

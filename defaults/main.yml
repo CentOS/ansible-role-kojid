@@ -17,6 +17,7 @@ koji_version: 1.29.1-1
 kojid_mock_version: 2.8-1
 
 # Kojid settings
+# See https://docs.pagure.org/koji/kojid_conf/ for possible values
 kojid_vendor: CentOS
 kojid_packager:  builder@centos.org
 kojid_distribution: CentOS
@@ -25,6 +26,12 @@ kojid_kojifiles_url: http://localhost/kojifiles
 kojid_sleeptime: 5 # default time to wait between tasks to ask for more tasks on kojihub
 kojid_maxjobs: 20
 kojid_minspace: 8192
+kojid_log_level: WARNING
+kojid_offline_retry: 'True'
+kojid_offline_retry_interval: 120
+kojid_retry_interval: 60
+kojid_failed_buildroot_lifetime: 14400
+
 # How long before we consider a job not finished and so killing chroot/build env ? upstream default is 86400 (24h)
 kojid_rpmbuild_timeout: 86400
 # Do we want to define an alternate builddir for mock (default to /var/lib/mock for chroot'ed build environments
